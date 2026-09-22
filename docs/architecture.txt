@@ -1,0 +1,51 @@
+ESP32 MQTT Broker — Architecture
+=================================
+
+┌──────────────────────────────────────────────────────┐
+│                       ESP32                          │
+│                                                      │
+│  ┌─────────────┐        ┌─────────────────────────┐  │
+│  │ sMQTTBroker │◄──────►│ WebServer (port 80)     │  │
+│  │ port 1883   │        │ /devices /rules /logs   │  │
+│  └──────┬──────┘        └─────────────────────────┘  │
+│         │                                            │
+│  ┌──────▼──────┐        ┌─────────────────────────┐  │
+│  │ LWT device  │        │ Rules engine            │  │
+│  │ tracker     │◄──────►│ Timers (NTP)            │  │
+│  │             │        │ $SYS publisher          │  │
+│  └─────────────┘        └─────────────────────────┘  │
+│                                                      │
+│  ┌────────────────────────────────────────────────┐  │
+│  │ Preferences (NVS)                              │  │
+│  │  · Wi-Fi credentials                           │  │
+│  │  · Rules (per-rule keys)                       │  │
+│  │  · Timers (per-timer keys)                     │  │
+│  └────────────────────────────────────────────────┘  │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+
+
+Memory constraints
+------------------
+MAX_CLIENTS  = 20
+MAX_TOPICS   = 30
+MAX_RULES    = 16
+MAX_TIMERS   = 16
+MAX_DEVICES  = 20
+MAX_LOGS     = 40 (ring buffer)
+
+
+NVS keys
+--------
+wifi/ssid, wifi/password, wifi/hostname
+mqtt-rules/rule_00 .. rule_15
+mqtt-timers/timer_00 .. timer_15
+
+
+Topic conventions
+-----------------
+Device status:   devices/<id>/status   (retained, online/offline)
+Device commands: devices/<id>/command  (per-device convention)
+Rules target:    any MQTT topic the broker can publish to
+Timers target:   any MQTT topic
+$SYS:            $SYS/broker/* and $SYS/esp32/*

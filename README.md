@@ -6,7 +6,8 @@
 
 A self-contained MQTT 3.1.1 broker for **ESP32** with a web dashboard, automation rules, timers, **Last Will and Testament (LWT)** device monitoring, and OTA updates. Runs entirely on a single ESP32 — no Raspberry Pi, no server, no cloud.
 
----<img width="1863" height="1008" alt="image" src="https://github.com/user-attachments/assets/b8483524-29b6-47af-9d25-46c644d7a668" />
+<img width="1774" height="877" alt="image" src="https://github.com/user-attachments/assets/2cbe5c1a-d8d4-4f2d-a194-6db93f0e6d93" />
+
 
 
 ## Features
